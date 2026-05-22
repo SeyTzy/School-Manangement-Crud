@@ -69,50 +69,52 @@ import { DataService } from '../../core/services/data.service';
             <mat-card-title>Grade Records</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <table mat-table [dataSource]="filteredGrades()">
-              <ng-container matColumnDef="student">
-                <th mat-header-cell *matHeaderCellDef>Student</th>
-                <td mat-cell *matCellDef="let grade">
-                  {{ getStudentName(grade.studentId) }}
-                </td>
-              </ng-container>
+            <div class="table-container">
+              <table mat-table [dataSource]="filteredGrades()">
+                <ng-container matColumnDef="student">
+                  <th mat-header-cell *matHeaderCellDef>Student</th>
+                  <td mat-cell *matCellDef="let grade">
+                    {{ getStudentName(grade.studentId) }}
+                  </td>
+                </ng-container>
 
-              <ng-container matColumnDef="subject">
-                <th mat-header-cell *matHeaderCellDef>Subject</th>
-                <td mat-cell *matCellDef="let grade">{{ getSubjectName(grade.subjectId) }}</td>
-              </ng-container>
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef>Subject</th>
+                  <td mat-cell *matCellDef="let grade">{{ getSubjectName(grade.subjectId) }}</td>
+                </ng-container>
 
-              <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let grade">
-                  <mat-chip>{{ grade.type }}</mat-chip>
-                </td>
-              </ng-container>
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef>Type</th>
+                  <td mat-cell *matCellDef="let grade">
+                    <mat-chip>{{ grade.type }}</mat-chip>
+                  </td>
+                </ng-container>
 
-              <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef>Title</th>
-                <td mat-cell *matCellDef="let grade">{{ grade.title }}</td>
-              </ng-container>
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef>Title</th>
+                  <td mat-cell *matCellDef="let grade">{{ grade.title }}</td>
+                </ng-container>
 
-              <ng-container matColumnDef="marks">
-                <th mat-header-cell *matHeaderCellDef>Marks</th>
-                <td mat-cell *matCellDef="let grade">
-                  <span class="marks">{{ grade.obtainedMarks }}/{{ grade.maxMarks }}</span>
-                </td>
-              </ng-container>
+                <ng-container matColumnDef="marks">
+                  <th mat-header-cell *matHeaderCellDef>Marks</th>
+                  <td mat-cell *matCellDef="let grade">
+                    <span class="marks">{{ grade.obtainedMarks }}/{{ grade.maxMarks }}</span>
+                  </td>
+                </ng-container>
 
-              <ng-container matColumnDef="percentage">
-                <th mat-header-cell *matHeaderCellDef>%</th>
-                <td mat-cell *matCellDef="let grade">
-                  <span class="percentage" [class]="getGradeClass(grade)">
-                    {{ getPercentage(grade) }}%
-                  </span>
-                </td>
-              </ng-container>
+                <ng-container matColumnDef="percentage">
+                  <th mat-header-cell *matHeaderCellDef>%</th>
+                  <td mat-cell *matCellDef="let grade">
+                    <span class="percentage" [class]="getGradeClass(grade)">
+                      {{ getPercentage(grade) }}%
+                    </span>
+                  </td>
+                </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
 
             @if (filteredGrades().length === 0) {
               <div class="empty-state">
@@ -133,59 +135,61 @@ import { DataService } from '../../core/services/data.service';
                 <mat-icon>close</mat-icon>
               </button>
             </div>
-            <form (ngSubmit)="saveGrade()" class="grade-form">
-              <mat-form-field appearance="outline">
-                <mat-label>Class</mat-label>
-                <mat-select [(value)]="gradeForm.classId" required>
-                  @for (cls of classes(); track cls.id) {
-                    <mat-option [value]="cls.id">{{ cls.name }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Student</mat-label>
-                <mat-select [(value)]="gradeForm.studentId" required>
-                  @for (student of classStudents(); track student.id) {
-                    <mat-option [value]="student.id">{{ student.firstName }} {{ student.lastName }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Subject</mat-label>
-                <mat-select [(value)]="gradeForm.subjectId" required>
-                  @for (subj of subjects(); track subj.id) {
-                    <mat-option [value]="subj.id">{{ subj.name }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Type</mat-label>
-                <mat-select [(value)]="gradeForm.type" required>
-                  <mat-option value="assignment">Assignment</mat-option>
-                  <mat-option value="quiz">Quiz</mat-option>
-                  <mat-option value="midterm">Midterm</mat-option>
-                  <mat-option value="final">Final</mat-option>
-                  <mat-option value="project">Project</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Title</mat-label>
-                <input matInput [(ngModel)]="gradeForm.title" name="title" required>
-              </mat-form-field>
-
-              <div class="form-row">
+            <form (ngSubmit)="saveGrade()">
+              <div class="form-body">
                 <mat-form-field appearance="outline">
-                  <mat-label>Max Marks</mat-label>
-                  <input matInput type="number" [(ngModel)]="gradeForm.maxMarks" name="maxMarks" required>
+                  <mat-label>Class</mat-label>
+                  <mat-select [(value)]="gradeForm.classId" required>
+                    @for (cls of classes(); track cls.id) {
+                      <mat-option [value]="cls.id">{{ cls.name }}</mat-option>
+                    }
+                  </mat-select>
                 </mat-form-field>
+
                 <mat-form-field appearance="outline">
-                  <mat-label>Obtained Marks</mat-label>
-                  <input matInput type="number" [(ngModel)]="gradeForm.obtainedMarks" name="obtainedMarks" required>
+                  <mat-label>Student</mat-label>
+                  <mat-select [(value)]="gradeForm.studentId" required>
+                    @for (student of classStudents(); track student.id) {
+                      <mat-option [value]="student.id">{{ student.firstName }} {{ student.lastName }}</mat-option>
+                    }
+                  </mat-select>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Subject</mat-label>
+                  <mat-select [(value)]="gradeForm.subjectId" required>
+                    @for (subj of subjects(); track subj.id) {
+                      <mat-option [value]="subj.id">{{ subj.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select [(value)]="gradeForm.type" required>
+                    <mat-option value="assignment">Assignment</mat-option>
+                    <mat-option value="quiz">Quiz</mat-option>
+                    <mat-option value="midterm">Midterm</mat-option>
+                    <mat-option value="final">Final</mat-option>
+                    <mat-option value="project">Project</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Title</mat-label>
+                  <input matInput [(ngModel)]="gradeForm.title" name="title" required>
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Max Marks</mat-label>
+                    <input matInput type="number" [(ngModel)]="gradeForm.maxMarks" name="maxMarks" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Obtained Marks</mat-label>
+                    <input matInput type="number" [(ngModel)]="gradeForm.obtainedMarks" name="obtainedMarks" required>
+                  </mat-form-field>
+                </div>
               </div>
 
               <div class="dialog-actions">
@@ -199,78 +203,54 @@ import { DataService } from '../../core/services/data.service';
     </div>
   `,
   styles: [`
-    .page-container { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+:host { display: block; }
 
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
+.content-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+}
 
-    .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
-    .page-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
-    .page-header button { display: flex; align-items: center; gap: 8px; }
+.filter-card, .grades-card {
+  border-radius: var(--radius-lg);
+}
 
-    .content-grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
-    .filter-card, .grades-card { border-radius: 12px; }
-    .filter-card mat-card-content { display: flex; flex-direction: column; gap: 16px; }
-    .full-width { width: 100%; }
+.filter-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-    table { width: 100%; }
-    .marks { font-weight: 600; }
-    .percentage { font-weight: 600; padding: 4px 8px; border-radius: 4px; }
-    .percentage.excellent { background: #ECFDF5; color: #059669; }
-    .percentage.good { background: #EFF6FF; color: #2563EB; }
-    .percentage.average { background: #FFFBEB; color: #D97706; }
-    .percentage.poor { background: #FEF2F2; color: #DC2626; }
+.full-width { width: 100%; }
 
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px;
-      color: var(--text-secondary);
-    }
+.table-container {
+  overflow-x: auto;
+}
 
-    .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 16px; }
+table { width: 100%; }
 
-    .dialog-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
+.marks {
+  font-weight: 600;
+  color: var(--text-primary);
+}
 
-    .dialog-content {
-      background: var(--surface);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
+.percentage {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
 
-    .dialog-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-    }
+.percentage.excellent { background: #ECFDF5; color: #059669; }
+.percentage.good { background: #EFF6FF; color: #2563EB; }
+.percentage.average { background: #FFFBEB; color: #D97706; }
+.percentage.poor { background: #FEF2F2; color: #DC2626; }
 
-    .dialog-header h2 { font-size: 20px; font-weight: 600; margin: 0; color: var(--text-primary); }
-
-    .grade-form { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    mat-form-field { width: 100%; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; }
-
-    @media (max-width: 768px) { .content-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
   `]
 })
 export class GradesComponent {

@@ -77,7 +77,7 @@ import { DataService } from '../../core/services/data.service';
             <mat-card-title>Today's Summary</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <div class="stats-grid">
+            <div class="stats-grid-inner">
               <div class="stat-item present">
                 <mat-icon>check_circle</mat-icon>
                 <span class="value">{{ getPresentCount() }}</span>
@@ -109,33 +109,35 @@ import { DataService } from '../../core/services/data.service';
         </mat-card-header>
         <mat-card-content>
           @if (classStudents().length > 0) {
-            <table mat-table [dataSource]="classStudents()">
-              <ng-container matColumnDef="rollNumber">
-                <th mat-header-cell *matHeaderCellDef>Roll No.</th>
-                <td mat-cell *matCellDef="let student">{{ student.rollNumber }}</td>
-              </ng-container>
+            <div class="table-container">
+              <table mat-table [dataSource]="classStudents()">
+                <ng-container matColumnDef="rollNumber">
+                  <th mat-header-cell *matHeaderCellDef>Roll No.</th>
+                  <td mat-cell *matCellDef="let student">{{ student.rollNumber }}</td>
+                </ng-container>
 
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let student">
-                  {{ student.firstName }} {{ student.lastName }}
-                </td>
-              </ng-container>
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Name</th>
+                  <td mat-cell *matCellDef="let student">
+                    {{ student.firstName }} {{ student.lastName }}
+                  </td>
+                </ng-container>
 
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef="let student">
-                  <mat-chip-listbox [(ngModel)]="attendanceMap[student.id]" (change)="updateAttendance(student.id, $event.value)">
-                    <mat-chip-option value="present" selected>Present</mat-chip-option>
-                    <mat-chip-option value="absent">Absent</mat-chip-option>
-                    <mat-chip-option value="late">Late</mat-chip-option>
-                  </mat-chip-listbox>
-                </td>
-              </ng-container>
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let student">
+                    <mat-chip-listbox [(ngModel)]="attendanceMap[student.id]" (change)="updateAttendance(student.id, $event.value)">
+                      <mat-chip-option value="present" selected>Present</mat-chip-option>
+                      <mat-chip-option value="absent">Absent</mat-chip-option>
+                      <mat-chip-option value="late">Late</mat-chip-option>
+                    </mat-chip-listbox>
+                  </td>
+                </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="studentColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: studentColumns;"></tr>
-            </table>
+                <tr mat-header-row *matHeaderRowDef="studentColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: studentColumns;"></tr>
+              </table>
+            </div>
 
             <div class="submit-section">
               <button mat-flat-button color="primary" (click)="submitAttendance()">
@@ -154,77 +156,91 @@ import { DataService } from '../../core/services/data.service';
     </div>
   `,
   styles: [`
-    .page-container { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+:host { display: block; }
 
-    .page-header { margin-bottom: 24px; }
-    .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
-    .page-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.attendance-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
 
-    .attendance-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
+.mark-card, .stats-card, .students-card {
+  border-radius: var(--radius-lg);
+}
 
-    .mark-card, .stats-card, .students-card { border-radius: 12px; }
+.mark-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-    .mark-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+.mark-form mat-form-field {
+  width: 100%;
+}
 
-    .mark-form mat-form-field { width: 100%; }
+.stats-grid-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
 
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 16px;
-      border-radius: 8px;
-      text-align: center;
-    }
+.stat-item mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 4px;
+}
 
-    .stat-item mat-icon { font-size: 32px; width: 32px; height: 32px; }
-    .stat-item .value { font-size: 28px; font-weight: 700; }
-    .stat-item .label { font-size: 12px; color: var(--text-secondary); }
+.stat-item .value {
+  font-size: 24px;
+  font-weight: 700;
+  color: inherit;
+}
 
-    .stat-item.present { background: #ECFDF5; color: #059669; }
-    .stat-item.absent { background: #FEF2F2; color: #DC2626; }
-    .stat-item.late { background: #FFFBEB; color: #D97706; }
-    .stat-item.total { background: #EFF6FF; color: #2563EB; }
+.stat-item .label {
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.8;
+}
 
-    table { width: 100%; }
+.stat-item.present { background: #ECFDF5; color: #059669; }
+.stat-item.absent { background: #FEF2F2; color: #DC2626; }
+.stat-item.late { background: #FFFBEB; color: #D97706; }
+.stat-item.total { background: #EFF6FF; color: #2563EB; }
 
-    .submit-section {
-      display: flex;
-      justify-content: flex-end;
-      padding: 16px;
-    }
+.table-container {
+  overflow-x: auto;
+}
 
-    .submit-section button { display: flex; align-items: center; gap: 8px; }
+table { width: 100%; }
 
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px;
-      color: var(--text-secondary);
-    }
+.submit-section {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0 0;
+}
 
-    .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 16px; }
+.submit-section button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    @media (max-width: 768px) {
-      .attendance-grid { grid-template-columns: 1fr; }
-    }
+@media (max-width: 768px) {
+  .attendance-grid {
+    grid-template-columns: 1fr;
+  }
+}
   `]
 })
 export class AttendanceComponent {

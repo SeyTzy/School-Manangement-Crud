@@ -28,6 +28,7 @@ import { AuthService } from '../../core/services/auth.service';
     MatSelectModule,
     MatProgressSpinnerModule
   ],
+  // eslint-disable-next-line max-len
   template: `
     <div class="login-container">
       <div class="login-bg">
@@ -39,21 +40,7 @@ import { AuthService } from '../../core/services/auth.service';
       <div class="login-content">
         <div class="login-header">
           <div class="logo">
-            <div class="logo-icon">
-              <svg viewBox="0 0 48 48" fill="none">
-                <defs>
-                  <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#2563EB"/>
-                    <stop offset="100%" stop-color="#1D4ED8"/>
-                  </linearGradient>
-                </defs>
-                <circle cx="24" cy="24" r="22" fill="url(#logoGrad)"/>
-                <path d="M14 32V16L24 10L34 16V32L24 38L14 32Z" stroke="white" stroke-width="2.5" fill="none"/>
-                <path d="M24 20V32M17 26H31" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="24" cy="24" r="3" fill="white"/>
-              </svg>
-            </div>
-            <span class="logo-text">SmartSchool</span>
+            <img src="/image/setec-logo.png" alt="Setec Logo" class="logo-img">
           </div>
           <h1>{{ isRegisterMode() ? 'Create Account' : 'Welcome back' }}</h1>
           <p>{{ isRegisterMode() ? 'Sign up to get started' : 'Sign in to access your dashboard' }}</p>
@@ -172,19 +159,19 @@ import { AuthService } from '../../core/services/auth.service';
           <div class="demo-credentials">
             <h4>Demo Accounts</h4>
             <div class="demo-grid">
-              <button type="button" (click)="fillDemo('admin@educore.com', 'admin123')" class="demo-btn admin">
+              <button type="button" (click)="fillDemo('admin@gmail.com', 'admin123')" class="demo-btn admin">
                 <mat-icon>admin_panel_settings</mat-icon>
                 Admin
               </button>
-              <button type="button" (click)="fillDemo('teacher@educore.com', 'teacher123')" class="demo-btn teacher">
+              <button type="button" (click)="fillDemo('teacher@gmail.com', 'teacher123')" class="demo-btn teacher">
                 <mat-icon>school</mat-icon>
                 Teacher
               </button>
-              <button type="button" (click)="fillDemo('student@educore.com', 'student123')" class="demo-btn student">
+              <button type="button" (click)="fillDemo('student@gmail.com', 'student123')" class="demo-btn student">
                 <mat-icon>person</mat-icon>
                 Student
               </button>
-              <button type="button" (click)="fillDemo('parent@educore.com', 'parent123')" class="demo-btn parent">
+              <button type="button" (click)="fillDemo('parent@gmail.com', 'parent123')" class="demo-btn parent">
                 <mat-icon>family_restroom</mat-icon>
                 Parent
               </button>
@@ -200,7 +187,7 @@ import { AuthService } from '../../core/services/auth.service';
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 16px;
       position: relative;
       overflow: hidden;
       background: var(--surface);
@@ -210,90 +197,84 @@ import { AuthService } from '../../core/services/auth.service';
       position: absolute;
       inset: 0;
       overflow: hidden;
+      pointer-events: none;
+      // background-image: url('/image/bg-logo.png');
+      background-repeat: no-repeat;
+      background-position: top 20px left 20px;
+      background-size: auto;
     }
 
     .bg-shape {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     .shape-1 {
-      width: 400px;
-      height: 400px;
+      width: min(400px, 50vw);
+      height: min(400px, 50vw);
       background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
-      top: -100px;
-      right: -100px;
+      top: -10%;
+      right: -10%;
       animation: float 20s ease-in-out infinite;
     }
 
     .shape-2 {
-      width: 300px;
-      height: 300px;
+      width: min(300px, 40vw);
+      height: min(300px, 40vw);
       background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
-      bottom: -50px;
-      left: -50px;
+      bottom: -8%;
+      left: -8%;
       animation: float 15s ease-in-out infinite reverse;
     }
 
     .shape-3 {
-      width: 200px;
-      height: 200px;
+      width: min(200px, 30vw);
+      height: min(200px, 30vw);
       background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
       top: 50%;
-      left: 50%;
+      left: 60%;
       animation: float 18s ease-in-out infinite;
     }
 
     @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      25% { transform: translate(30px, -30px); }
-      50% { transform: translate(-20px, 20px); }
-      75% { transform: translate(20px, 30px); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(40px, -40px) rotate(5deg); }
+      50% { transform: translate(-20px, 20px) rotate(-3deg); }
+      75% { transform: translate(30px, 40px) rotate(4deg); }
     }
 
     .login-content {
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
       position: relative;
       z-index: 1;
     }
 
     .login-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
-    .logo-icon {
-      width: 48px;
+    .logo-img {
       height: 48px;
-    }
-
-    .logo-icon svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .logo-text {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
+      width: auto;
     }
 
     .login-header h1 {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
       color: var(--text-primary);
-      margin: 0 0 8px 0;
+      margin: 0 0 6px;
     }
 
     .login-header p {
@@ -304,9 +285,10 @@ import { AuthService } from '../../core/services/auth.service';
 
     .login-form {
       background: var(--surface);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
     }
 
     .form-row {
@@ -322,7 +304,7 @@ import { AuthService } from '../../core/services/auth.service';
       padding: 12px 16px;
       background: #FEF2F2;
       border: 1px solid #FECACA;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       color: #DC2626;
       font-size: 14px;
       margin-bottom: 16px;
@@ -332,23 +314,26 @@ import { AuthService } from '../../core/services/auth.service';
       font-size: 20px;
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
     }
 
     mat-form-field {
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .form-options {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .forgot-link {
       font-size: 14px;
-      color: #2563EB;
+      color: var(--primary);
       text-decoration: none;
       font-weight: 500;
     }
@@ -359,10 +344,10 @@ import { AuthService } from '../../core/services/auth.service';
 
     .login-btn {
       width: 100%;
-      height: 48px;
-      font-size: 16px;
+      height: 46px;
+      font-size: 15px;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -380,7 +365,7 @@ import { AuthService } from '../../core/services/auth.service';
     }
 
     .switch-mode a {
-      color: #2563EB;
+      color: var(--primary);
       font-weight: 600;
       text-decoration: none;
       margin-left: 4px;
@@ -391,20 +376,20 @@ import { AuthService } from '../../core/services/auth.service';
     }
 
     .demo-credentials {
-      margin-top: 24px;
-      padding: 20px;
+      margin-top: 20px;
+      padding: 16px 20px;
       background: var(--surface);
-      border-radius: 12px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
     }
 
     .demo-credentials h4 {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 0 0 12px 0;
+      letter-spacing: 0.8px;
+      margin: 0 0 12px;
       text-align: center;
     }
 
@@ -419,27 +404,30 @@ import { AuthService } from '../../core/services/auth.service';
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 10px 12px;
+      padding: 10px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       background: transparent;
       color: var(--text-primary);
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
+      font-family: inherit;
     }
 
     .demo-btn:hover {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
 
     .demo-btn mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
     }
 
     .demo-btn.admin:hover { background: #7C3AED; border-color: #7C3AED; }
@@ -448,13 +436,13 @@ import { AuthService } from '../../core/services/auth.service';
     .demo-btn.parent:hover { background: #D97706; border-color: #D97706; }
 
     @media (max-width: 480px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .demo-grid {
-        grid-template-columns: 1fr;
-      }
+      .login-container { padding: 12px; }
+      .login-content { max-width: 100%; }
+      .login-form { padding: 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .login-header h1 { font-size: 22px; }
+      .logo-img { height: 40px; }
     }
   `]
 })

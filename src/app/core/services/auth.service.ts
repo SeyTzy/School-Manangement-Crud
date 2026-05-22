@@ -21,9 +21,9 @@ export class AuthService {
   private mockUsers: User[] = [
     {
       id: '1',
-      email: 'admin@educore.com',
+      email: 'admin@gmail.com',
       password: 'admin123',
-      firstName: 'John',
+      firstName: 'Seyhat',
       lastName: 'Admin',
       role: 'admin',
       phone: '555-0100',
@@ -32,7 +32,7 @@ export class AuthService {
     } as Admin,
     {
       id: '2',
-      email: 'teacher@educore.com',
+      email: 'teacher@gmail.com',
       password: 'teacher123',
       firstName: 'Sarah',
       lastName: 'Johnson',
@@ -43,7 +43,7 @@ export class AuthService {
     } as Teacher,
     {
       id: '3',
-      email: 'student@educore.com',
+      email: 'student@gmail.com',
       password: 'student123',
       firstName: 'Michael',
       lastName: 'Smith',
@@ -54,7 +54,7 @@ export class AuthService {
     } as Student,
     {
       id: '4',
-      email: 'parent@educore.com',
+      email: 'parent@gmail.com',
       password: 'parent123',
       firstName: 'Emily',
       lastName: 'Parent',

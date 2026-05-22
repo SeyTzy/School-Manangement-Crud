@@ -67,68 +67,70 @@ import { Teacher } from '../../core/models';
           </mat-form-field>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort>
-          <ng-container matColumnDef="photo">
-            <th mat-header-cell *matHeaderCellDef>Photo</th>
-            <td mat-cell *matCellDef="let teacher">
-              <div class="teacher-avatar">{{ teacher.firstName[0] }}{{ teacher.lastName[0] }}</div>
-            </td>
-          </ng-container>
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="photo">
+              <th mat-header-cell *matHeaderCellDef>Photo</th>
+              <td mat-cell *matCellDef="let teacher">
+                <div class="avatar-circle green">{{ teacher.firstName[0] }}{{ teacher.lastName[0] }}</div>
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let teacher">
-              <div class="teacher-name">
-                <span class="primary">{{ teacher.firstName }} {{ teacher.lastName }}</span>
-                <span class="secondary">{{ teacher.email }}</span>
-              </div>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let teacher">
+                <div class="name-cell">
+                  <span class="primary">{{ teacher.firstName }} {{ teacher.lastName }}</span>
+                  <span class="secondary">{{ teacher.email }}</span>
+                </div>
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="teacherId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Teacher ID</th>
-            <td mat-cell *matCellDef="let teacher">{{ teacher.teacherId }}</td>
-          </ng-container>
+            <ng-container matColumnDef="teacherId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Teacher ID</th>
+              <td mat-cell *matCellDef="let teacher">{{ teacher.teacherId }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="department">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
-            <td mat-cell *matCellDef="let teacher">
-              <mat-chip>{{ teacher.department }}</mat-chip>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="department">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+              <td mat-cell *matCellDef="let teacher">
+                <mat-chip>{{ teacher.department }}</mat-chip>
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="qualification">
-            <th mat-header-cell *matHeaderCellDef>Qualification</th>
-            <td mat-cell *matCellDef="let teacher">{{ teacher.qualification }}</td>
-          </ng-container>
+            <ng-container matColumnDef="qualification">
+              <th mat-header-cell *matHeaderCellDef>Qualification</th>
+              <td mat-cell *matCellDef="let teacher">{{ teacher.qualification }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef>Phone</th>
-            <td mat-cell *matCellDef="let teacher">{{ teacher.phone || 'N/A' }}</td>
-          </ng-container>
+            <ng-container matColumnDef="phone">
+              <th mat-header-cell *matHeaderCellDef>Phone</th>
+              <td mat-cell *matCellDef="let teacher">{{ teacher.phone || 'N/A' }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let teacher">
-              <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="editTeacher(teacher)">
-                  <mat-icon>edit</mat-icon>
-                  <span>Edit</span>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let teacher">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
                 </button>
-                <button mat-menu-item (click)="deleteTeacher(teacher)">
-                  <mat-icon>delete</mat-icon>
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
-            </td>
-          </ng-container>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="editTeacher(teacher)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteTeacher(teacher)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
       </mat-card>
@@ -143,43 +145,45 @@ import { Teacher } from '../../core/models';
               </button>
             </div>
             
-            <form (ngSubmit)="saveTeacher()" class="teacher-form">
-              <div class="form-row">
-                <mat-form-field appearance="outline">
-                  <mat-label>First Name</mat-label>
-                  <input matInput [(ngModel)]="formData.firstName" name="firstName" required>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Last Name</mat-label>
-                  <input matInput [(ngModel)]="formData.lastName" name="lastName" required>
-                </mat-form-field>
-              </div>
+            <form (ngSubmit)="saveTeacher()">
+              <div class="form-body">
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput [(ngModel)]="formData.firstName" name="firstName" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput [(ngModel)]="formData.lastName" name="lastName" required>
+                  </mat-form-field>
+                </div>
 
-              <div class="form-row">
-                <mat-form-field appearance="outline">
-                  <mat-label>Email</mat-label>
-                  <input matInput type="email" [(ngModel)]="formData.email" name="email" required>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Phone</mat-label>
-                  <input matInput [(ngModel)]="formData.phone" name="phone">
-                </mat-form-field>
-              </div>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" [(ngModel)]="formData.email" name="email" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Phone</mat-label>
+                    <input matInput [(ngModel)]="formData.phone" name="phone">
+                  </mat-form-field>
+                </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Address</mat-label>
-                <input matInput [(ngModel)]="formData.address" name="address">
-              </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <input matInput [(ngModel)]="formData.address" name="address">
+                </mat-form-field>
 
-              <div class="form-row">
-                <mat-form-field appearance="outline">
-                  <mat-label>Department</mat-label>
-                  <input matInput [(ngModel)]="formData.department" name="department" required>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Qualification</mat-label>
-                  <input matInput [(ngModel)]="formData.qualification" name="qualification" required>
-                </mat-form-field>
+                <div class="form-row">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Department</mat-label>
+                    <input matInput [(ngModel)]="formData.department" name="department" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Qualification</mat-label>
+                    <input matInput [(ngModel)]="formData.qualification" name="qualification" required>
+                  </mat-form-field>
+                </div>
               </div>
 
               <div class="dialog-actions">
@@ -194,120 +198,7 @@ import { Teacher } from '../../core/models';
       }
     </div>
   `,
-  styles: [`
-    .page-container { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .page-header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 8px 0;
-    }
-
-    .page-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
-
-    .table-card { border-radius: 12px; }
-
-    .table-header {
-      display: flex;
-      gap: 16px;
-      padding: 16px;
-      flex-wrap: wrap;
-    }
-
-    .search-field { flex: 1; min-width: 250px; }
-    .filter-field { width: 180px; }
-
-    table { width: 100%; }
-
-    .teacher-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #059669;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .teacher-name {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .teacher-name .primary { font-weight: 500; color: var(--text-primary); }
-    .teacher-name .secondary { font-size: 12px; color: var(--text-secondary); }
-
-    .dialog-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .dialog-content {
-      background: var(--surface);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 560px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .dialog-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .dialog-header h2 {
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0;
-      color: var(--text-primary);
-    }
-
-    .teacher-form { padding: 24px; }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    mat-form-field { width: 100%; margin-bottom: 8px; }
-
-    .dialog-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    @media (max-width: 768px) {
-      .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .page-header button { width: 100%; }
-      .table-header { flex-direction: column; }
-      .search-field, .filter-field { width: 100%; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-  `]
+  styles: [`:host { display: block; }`]
 })
 export class TeachersComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;

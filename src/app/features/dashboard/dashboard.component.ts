@@ -26,6 +26,7 @@ import { AuthService } from '../../core/services/auth.service';
     MatProgressBarModule,
     BaseChartDirective
   ],
+  // eslint-disable-next-line max-len
   template: `
     <div class="dashboard">
       <div class="page-header">
@@ -33,48 +34,45 @@ import { AuthService } from '../../core/services/auth.service';
           <h1>Welcome back, {{ userName() }}</h1>
           <p>Here's what's happening at your school today</p>
         </div>
-        <div class="header-actions">
-          @if (isAdmin()) {
-            <button mat-flat-button color="primary" routerLink="/students/add">
-              <mat-icon>add</mat-icon>
-              Add Student
-            </button>
-          }
-        </div>
+        @if (isAdmin()) {
+          <button mat-flat-button color="primary" routerLink="/students/add">
+            <mat-icon>add</mat-icon>
+            Add Student
+          </button>
+        }
       </div>
 
-      <!-- Stats Cards -->
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon students">
+          <div class="stat-icon blue">
             <mat-icon>school</mat-icon>
           </div>
           <div class="stat-content">
             <span class="stat-value">{{ totalStudents() }}</span>
             <span class="stat-label">Total Students</span>
           </div>
-          <div class="stat-trend positive">
+          <div class="stat-trend up">
             <mat-icon>trending_up</mat-icon>
             +12%
           </div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon teachers">
+          <div class="stat-icon green">
             <mat-icon>person</mat-icon>
           </div>
           <div class="stat-content">
             <span class="stat-value">{{ totalTeachers() }}</span>
             <span class="stat-label">Total Teachers</span>
           </div>
-          <div class="stat-trend positive">
+          <div class="stat-trend up">
             <mat-icon>trending_up</mat-icon>
             +5%
           </div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon classes">
+          <div class="stat-icon purple">
             <mat-icon>class</mat-icon>
           </div>
           <div class="stat-content">
@@ -88,21 +86,20 @@ import { AuthService } from '../../core/services/auth.service';
         </div>
 
         <div class="stat-card">
-          <div class="stat-icon attendance">
+          <div class="stat-icon amber">
             <mat-icon>fact_check</mat-icon>
           </div>
           <div class="stat-content">
             <span class="stat-value">{{ averageAttendance() }}%</span>
             <span class="stat-label">Attendance</span>
           </div>
-          <div class="stat-trend positive">
+          <div class="stat-trend up">
             <mat-icon>trending_up</mat-icon>
             +3%
           </div>
         </div>
       </div>
 
-      <!-- Charts Section -->
       <div class="charts-grid">
         <mat-card class="chart-card">
           <mat-card-header>
@@ -110,11 +107,13 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-card-subtitle>Monthly student enrollments</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <canvas baseChart
-              [data]="enrollmentChartData"
-              [options]="lineChartOptions"
-              [type]="lineChartType">
-            </canvas>
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="enrollmentChartData"
+                [options]="lineChartOptions"
+                [type]="lineChartType">
+              </canvas>
+            </div>
           </mat-card-content>
         </mat-card>
 
@@ -124,16 +123,17 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-card-subtitle>Current month statistics</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <canvas baseChart
-              [data]="attendanceChartData"
-              [options]="doughnutChartOptions"
-              [type]="doughnutChartType">
-            </canvas>
+            <div class="chart-wrapper">
+              <canvas baseChart
+                [data]="attendanceChartData"
+                [options]="doughnutChartOptions"
+                [type]="doughnutChartType">
+              </canvas>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
 
-      <!-- Quick Actions & Recent Activity -->
       <div class="bottom-grid">
         <mat-card class="quick-actions">
           <mat-card-header>
@@ -170,14 +170,14 @@ import { AuthService } from '../../core/services/auth.service';
             <div class="student-list">
               @for (student of recentStudents(); track student.id) {
                 <div class="student-item">
-                  <div class="student-avatar">
+                  <div class="avatar-circle primary">
                     {{ student.firstName[0] }}{{ student.lastName[0] }}
                   </div>
                   <div class="student-info">
                     <span class="name">{{ student.firstName }} {{ student.lastName }}</span>
                     <span class="class">Class {{ getClassName(student.classId) }}</span>
                   </div>
-                  <mat-chip>{{ student.rollNumber }}</mat-chip>
+                  <span class="student-roll">{{ student.rollNumber }}</span>
                 </div>
               }
             </div>
@@ -188,38 +188,7 @@ import { AuthService } from '../../core/services/auth.service';
   `,
   styles: [`
     .dashboard {
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-    }
-
-    .page-header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0 0 8px 0;
-    }
-
-    .page-header p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin: 0;
-    }
-
-    .header-actions button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      animation: pageEnter 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stats-grid {
@@ -229,80 +198,6 @@ import { AuthService } from '../../core/services/auth.service';
       margin-bottom: 24px;
     }
 
-    .stat-card {
-      background: var(--surface);
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .stat-icon mat-icon {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
-      color: white;
-    }
-
-    .stat-icon.students { background: linear-gradient(135deg, #2563EB, #3B82F6); }
-    .stat-icon.teachers { background: linear-gradient(135deg, #059669, #10B981); }
-    .stat-icon.classes { background: linear-gradient(135deg, #7C3AED, #8B5CF6); }
-    .stat-icon.attendance { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
-
-    .stat-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    .stat-trend {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .stat-trend mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .stat-trend.positive { color: #10B981; }
-    .stat-trend.negative { color: #EF4444; }
-    .stat-trend.neutral { color: var(--text-secondary); }
-
     .charts-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -311,14 +206,19 @@ import { AuthService } from '../../core/services/auth.service';
     }
 
     .chart-card {
-      border-radius: 12px;
+      border-radius: var(--radius-lg);
     }
 
     .chart-card mat-card-header {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
-    .chart-card canvas {
+    .chart-wrapper {
+      position: relative;
+      max-height: 280px;
+    }
+
+    .chart-wrapper canvas {
       max-height: 280px;
     }
 
@@ -326,10 +226,6 @@ import { AuthService } from '../../core/services/auth.service';
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-    }
-
-    .quick-actions, .recent-activity {
-      border-radius: 12px;
     }
 
     .actions-grid {
@@ -347,21 +243,24 @@ import { AuthService } from '../../core/services/auth.service';
       padding: 20px;
       background: var(--background);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s ease;
+      color: var(--text-primary);
+      font-family: inherit;
     }
 
     .action-btn:hover {
       background: var(--primary-light);
       border-color: var(--primary);
       color: var(--primary);
+      transform: translateY(-1px);
     }
 
     .action-btn mat-icon {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
     }
 
     .action-btn span {
@@ -372,45 +271,49 @@ import { AuthService } from '../../core/services/auth.service';
     .student-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .student-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
+      padding: 10px 12px;
       background: var(--background);
-      border-radius: 8px;
+      border-radius: var(--radius-md);
+      transition: background 0.2s;
     }
 
-    .student-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
+    .student-item:hover {
+      background: var(--primary-light);
     }
 
     .student-info {
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .student-info .name {
       font-weight: 500;
+      font-size: 14px;
       color: var(--text-primary);
     }
 
     .student-info .class {
       font-size: 12px;
       color: var(--text-secondary);
+    }
+
+    .student-roll {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 2px 8px;
+      background: var(--surface);
+      border-radius: 4px;
+      border: 1px solid var(--border);
     }
 
     @media (max-width: 1200px) {
@@ -428,21 +331,26 @@ import { AuthService } from '../../core/services/auth.service';
     }
 
     @media (max-width: 768px) {
-      .page-header {
-        flex-direction: column;
-        gap: 16px;
-      }
-
       .stats-grid {
         grid-template-columns: 1fr;
       }
 
-      .header-actions {
-        width: 100%;
+      .actions-grid {
+        grid-template-columns: 1fr;
       }
 
-      .header-actions button {
-        width: 100%;
+      .chart-wrapper {
+        max-height: 220px;
+      }
+
+      .chart-wrapper canvas {
+        max-height: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        gap: 12px;
       }
     }
   `]

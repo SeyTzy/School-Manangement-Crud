@@ -24,7 +24,7 @@ import { DataService } from '../../core/services/data.service';
     <div class="page-container">
       <div class="page-header">
         <div>
-          <h1>Timetable</h1>
+          <h1>Schedule</h1>
           <p>View class schedules and periods</p>
         </div>
       </div>
@@ -45,33 +45,35 @@ import { DataService } from '../../core/services/data.service';
       <mat-card class="timetable-card">
         <mat-card-content>
           @if (selectedClass) {
-            <div class="timetable-grid">
-              <div class="timetable-header">
-                <div class="time-col">Time</div>
-                @for (day of days; track day) {
-                  <div class="day-col">{{ day }}</div>
-                }
-              </div>
-              
-              @for (period of periods; track period) {
-                <div class="timetable-row">
-                  <div class="time-cell">
-                    <span class="period-num">{{ period }}</span>
-                    <span class="time">{{ getTimeSlot(period) }}</span>
-                  </div>
-                  @for (day of days; track day; let i = $index) {
-                    <div class="schedule-cell" [class]="getCellClass(i, period)">
-                      @if (getSubject(i, period)) {
-                        <span class="subject">{{ getSubject(i, period)?.subjectName }}</span>
-                        <span class="teacher">{{ getSubject(i, period)?.teacherName }}</span>
-                        <span class="room">{{ getSubject(i, period)?.room }}</span>
-                      } @else {
-                        <span class="break">Break</span>
-                      }
-                    </div>
+            <div class="timetable-wrap">
+              <div class="timetable-grid">
+                <div class="t-header">
+                  <div class="t-cell time-header">Time</div>
+                  @for (day of days; track day) {
+                    <div class="t-cell day-header">{{ day }}</div>
                   }
                 </div>
-              }
+                
+                @for (period of periods; track period) {
+                  <div class="t-row">
+                    <div class="t-cell time-cell">
+                      <span class="period-num">P{{ period }}</span>
+                      <span class="period-time">{{ getTimeSlot(period) }}</span>
+                    </div>
+                    @for (day of days; track day; let i = $index) {
+                      <div class="t-cell schedule-cell" [class]="getCellClass(i, period)">
+                        @if (getSubject(i, period)) {
+                          <span class="subject-name">{{ getSubject(i, period)?.subjectName }}</span>
+                          <span class="subject-teacher">{{ getSubject(i, period)?.teacherName }}</span>
+                          <span class="subject-room">{{ getSubject(i, period)?.room }}</span>
+                        } @else {
+                          <span class="break-label">Break</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
             </div>
           } @else {
             <div class="empty-state">
@@ -84,112 +86,120 @@ import { DataService } from '../../core/services/data.service';
     </div>
   `,
   styles: [`
-    .page-container { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+:host { display: block; }
 
-    .page-header { margin-bottom: 24px; }
-    .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
-    .page-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.filter-card {
+  margin-bottom: 20px;
+  border-radius: var(--radius-lg);
+}
 
-    .filter-card { margin-bottom: 24px; border-radius: 12px; }
-    .filter-card mat-form-field { width: 100%; max-width: 300px; }
+.filter-card mat-form-field {
+  width: 100%;
+  max-width: 300px;
+}
 
-    .timetable-card { border-radius: 12px; }
+.timetable-card {
+  border-radius: var(--radius-lg);
+}
 
-    .timetable-grid {
-      overflow-x: auto;
-    }
+.timetable-wrap {
+  overflow-x: auto;
+}
 
-    .timetable-header {
-      display: grid;
-      grid-template-columns: 100px repeat(5, 1fr);
-      background: var(--primary);
-      color: white;
-      border-radius: 8px 8px 0 0;
-    }
+.timetable-grid {
+  min-width: 650px;
+}
 
-    .time-col, .day-col {
-      padding: 16px;
-      font-weight: 600;
-      text-align: center;
-    }
+.t-header {
+  display: grid;
+  grid-template-columns: 90px repeat(5, 1fr);
+  background: var(--primary);
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
 
-    .timetable-row {
-      display: grid;
-      grid-template-columns: 100px repeat(5, 1fr);
-      border-bottom: 1px solid var(--border);
-    }
+.t-cell {
+  padding: 14px 10px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 13px;
+}
 
-    .timetable-row:last-child { border-bottom: none; }
+.time-header, .day-header {
+  padding: 14px;
+}
 
-    .time-cell {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: var(--background);
-      border-right: 1px solid var(--border);
-    }
+.t-row {
+  display: grid;
+  grid-template-columns: 90px repeat(5, 1fr);
+  border-bottom: 1px solid var(--border);
+}
 
-    .period-num {
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--primary);
-    }
+.t-row:last-child {
+  border-bottom: none;
+}
 
-    .time {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
+.time-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  border-right: 1px solid var(--border);
+  gap: 2px;
+}
 
-    .schedule-cell {
-      padding: 12px;
-      text-align: center;
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      min-height: 80px;
-      justify-content: center;
-    }
+.period-num {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary);
+}
 
-    .schedule-cell:last-child { border-right: none; }
+.period-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
 
-    .schedule-cell .subject {
-      font-weight: 600;
-      color: var(--text-primary);
-      font-size: 14px;
-    }
+.schedule-cell {
+  padding: 10px 8px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 72px;
+}
 
-    .schedule-cell .teacher {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
+.schedule-cell:last-child {
+  border-right: none;
+}
 
-    .schedule-cell .room {
-      font-size: 11px;
-      color: var(--text-secondary);
-      padding: 2px 6px;
-      background: var(--background);
-      border-radius: 4px;
-    }
+.subject-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 13px;
+}
 
-    .schedule-cell.break .break {
-      color: var(--text-secondary);
-      font-style: italic;
-    }
+.subject-teacher {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
 
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 48px;
-      color: var(--text-secondary);
-    }
+.subject-room {
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding: 2px 6px;
+  background: var(--background);
+  border-radius: 4px;
+}
 
-    .empty-state mat-icon { font-size: 48px; width: 48px; height: 48px; margin-bottom: 16px; }
+.break-label {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 12px;
+}
   `]
 })
 export class TimetableComponent {

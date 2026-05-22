@@ -72,52 +72,90 @@ import { ThemeService } from '../../core/services/theme.service';
             <mat-card-subtitle>Manage your security settings</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <button mat-stroked-button color="primary">
-              <mat-icon>lock</mat-icon>
-              Change Password
-            </button>
-            <button mat-stroked-button color="primary">
-              <mat-icon>devices</mat-icon>
-              Manage Sessions
-            </button>
+            <div class="settings-actions">
+              <button mat-stroked-button color="primary">
+                <mat-icon>lock</mat-icon>
+                Change Password
+              </button>
+              <button mat-stroked-button color="primary">
+                <mat-icon>devices</mat-icon>
+                Manage Sessions
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
     </div>
   `,
   styles: [`
-    .page-container { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+:host { display: block; }
 
-    .page-header { margin-bottom: 24px; }
-    .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text-primary); margin: 0 0 8px 0; }
-    .page-header p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
 
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-    }
+.settings-card {
+  border-radius: var(--radius-lg);
+}
 
-    .settings-card { border-radius: 12px; }
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
 
-    .setting-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-    }
+.setting-item:last-child {
+  border-bottom: none;
+}
 
-    .setting-item:last-child { border-bottom: none; }
+.setting-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
-    .setting-info { display: flex; flex-direction: column; }
-    .setting-info .label { font-weight: 500; color: var(--text-primary); }
-    .setting-info .description { font-size: 13px; color: var(--text-secondary); }
+.setting-info .label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
 
-    .settings-card button { margin-right: 12px; margin-top: 16px; }
+.setting-info .description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
 
-    @media (max-width: 768px) { .settings-grid { grid-template-columns: 1fr; } }
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.settings-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-actions {
+    flex-direction: column;
+  }
+
+  .settings-actions button {
+    width: 100%;
+  }
+}
   `]
 })
 export class SettingsComponent {

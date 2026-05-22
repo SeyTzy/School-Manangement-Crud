@@ -6,65 +6,160 @@ import { Student, Teacher, Class, Subject, AcademicYear, Attendance, Grade, Time
 })
 export class DataService {
   private _students = signal<Student[]>([
-    {
-      id: '1', email: 'alex@example.com', password: 'pass123', firstName: 'Alex', lastName: 'Johnson',
-      role: 'student', phone: '555-1001', address: '123 Main St', createdAt: new Date(),
-      studentId: 'STU001', classId: '1', rollNumber: 1, dateOfBirth: new Date('2010-05-15'),
-      parentId: '1', emergencyContact: '555-9001'
-    },
-    {
-      id: '2', email: 'emma@example.com', password: 'pass123', firstName: 'Emma', lastName: 'Wilson',
-      role: 'student', phone: '555-1002', address: '124 Main St', createdAt: new Date(),
-      studentId: 'STU002', classId: '1', rollNumber: 2, dateOfBirth: new Date('2010-08-22'),
-      parentId: '2', emergencyContact: '555-9002'
-    },
-    {
-      id: '3', email: 'james@example.com', password: 'pass123', firstName: 'James', lastName: 'Brown',
-      role: 'student', phone: '555-1003', address: '125 Main St', createdAt: new Date(),
-      studentId: 'STU003', classId: '1', rollNumber: 3, dateOfBirth: new Date('2010-03-10'),
-      parentId: '3', emergencyContact: '555-9003'
-    },
-    {
-      id: '4', email: 'olivia@example.com', password: 'pass123', firstName: 'Olivia', lastName: 'Davis',
-      role: 'student', phone: '555-1004', address: '126 Main St', createdAt: new Date(),
-      studentId: 'STU004', classId: '2', rollNumber: 1, dateOfBirth: new Date('2010-11-05'),
-      parentId: '4', emergencyContact: '555-9004'
-    },
-    {
-      id: '5', email: 'william@example.com', password: 'pass123', firstName: 'William', lastName: 'Miller',
-      role: 'student', phone: '555-1005', address: '127 Main St', createdAt: new Date(),
-      studentId: 'STU005', classId: '2', rollNumber: 2, dateOfBirth: new Date('2010-07-18'),
-      parentId: '5', emergencyContact: '555-9005'
-    }
-  ]);
+  {
+    id: '1',
+    email: 'sokha.chan@gmail.com',
+    password: 'pass123',
+    firstName: 'Sokha',
+    lastName: 'Chan',
+    role: 'student',
+    phone: '012-100001',
+    address: 'Street 271, Sangkat Boeung Tumpun, Khan Mean Chey, Phnom Penh',
+    createdAt: new Date(),
+    studentId: 'STU001',
+    classId: '1',
+    rollNumber: 1,
+    dateOfBirth: new Date('2010-05-15'),
+    parentId: '1',
+    emergencyContact: '012-900001'
+  },
+  {
+    id: '2',
+    email: 'sreyneang.kim@gmail.com',
+    password: 'pass123',
+    firstName: 'Sreyneang',
+    lastName: 'Kim',
+    role: 'student',
+    phone: '012-100002',
+    address: 'Street 2004, Sangkat Teuk Thla, Khan Sen Sok, Phnom Penh',
+    createdAt: new Date(),
+    studentId: 'STU002',
+    classId: '1',
+    rollNumber: 2,
+    dateOfBirth: new Date('2010-08-22'),
+    parentId: '2',
+    emergencyContact: '012-900002'
+  },
+  {
+    id: '3',
+    email: 'dara.sok@gmail.com',
+    password: 'pass123',
+    firstName: 'Dara',
+    lastName: 'Sok',
+    role: 'student',
+    phone: '012-100003',
+    address: 'Street 598, Sangkat Toul Sangke, Khan Russey Keo, Phnom Penh',
+    createdAt: new Date(),
+    studentId: 'STU003',
+    classId: '1',
+    rollNumber: 3,
+    dateOfBirth: new Date('2010-03-10'),
+    parentId: '3',
+    emergencyContact: '012-900003'
+  },
+  {
+    id: '4',
+    email: 'pisey.lim@gmail.com',
+    password: 'pass123',
+    firstName: 'Pisey',
+    lastName: 'Lim',
+    role: 'student',
+    phone: '012-100004',
+    address: 'Street 60M, Sangkat Chak Angre Leu, Khan Mean Chey, Phnom Penh',
+    createdAt: new Date(),
+    studentId: 'STU004',
+    classId: '2',
+    rollNumber: 1,
+    dateOfBirth: new Date('2010-11-05'),
+    parentId: '4',
+    emergencyContact: '012-900004'
+  },
+  {
+    id: '5',
+    email: 'vannak.chea@gmail.com',
+    password: 'pass123',
+    firstName: 'Vannak',
+    lastName: 'Chea',
+    role: 'student',
+    phone: '012-100005',
+    address: 'Street 310, Sangkat Boeung Keng Kang, Khan Chamkar Mon, Phnom Penh',
+    createdAt: new Date(),
+    studentId: 'STU005',
+    classId: '2',
+    rollNumber: 2,
+    dateOfBirth: new Date('2010-07-18'),
+    parentId: '5',
+    emergencyContact: '012-900005'
+  }
+]);
 
   private _teachers = signal<Teacher[]>([
-    {
-      id: '1', email: 'sarah.johnson@example.com', password: 'pass123', firstName: 'Sarah', lastName: 'Johnson',
-      role: 'teacher', phone: '555-2001', address: '321 Oak Ave', createdAt: new Date(),
-      teacherId: 'TCH001', department: 'Mathematics', qualification: 'M.Sc. Mathematics', subjects: ['Math-1', 'Math-2']
-    },
-    {
-      id: '2', email: 'michael.chen@example.com', password: 'pass123', firstName: 'Michael', lastName: 'Chen',
-      role: 'teacher', phone: '555-2002', address: '322 Oak Ave', createdAt: new Date(),
-      teacherId: 'TCH002', department: 'Science', qualification: 'M.Sc. Physics', subjects: ['Science-1', 'Science-2']
-    },
-    {
-      id: '3', email: 'lisa.anderson@example.com', password: 'pass123', firstName: 'Lisa', lastName: 'Anderson',
-      role: 'teacher', phone: '555-2003', address: '323 Oak Ave', createdAt: new Date(),
-      teacherId: 'TCH003', department: 'English', qualification: 'M.A. English', subjects: ['English-1', 'English-2']
-    },
-    {
-      id: '4', email: 'david.kumar@example.com', password: 'pass123', firstName: 'David', lastName: 'Kumar',
-      role: 'teacher', phone: '555-2004', address: '324 Oak Ave', createdAt: new Date(),
-      teacherId: 'TCH004', department: 'History', qualification: 'M.A. History', subjects: ['History-1', 'History-2']
-    }
-  ]);
+  {
+    id: '1',
+    email: 'sophea.chan@gmail.com',
+    password: 'pass123',
+    firstName: 'Sophea',
+    lastName: 'Chan',
+    role: 'teacher',
+    phone: '012-200001',
+    address: 'Street 271, Sangkat Boeung Tumpun, Khan Mean Chey, Phnom Penh',
+    createdAt: new Date(),
+    teacherId: 'TCH001',
+    department: 'Mathematics',
+    qualification: 'M.Sc. Mathematics',
+    subjects: ['Math-1', 'Math-2']
+  },
+  {
+    id: '2',
+    email: 'vuthy.chea@gmail.com',
+    password: 'pass123',
+    firstName: 'Vuthy',
+    lastName: 'Chea',
+    role: 'teacher',
+    phone: '012-200002',
+    address: 'Street 598, Sangkat Toul Sangke, Khan Russey Keo, Phnom Penh',
+    createdAt: new Date(),
+    teacherId: 'TCH002',
+    department: 'Science',
+    qualification: 'M.Sc. Physics',
+    subjects: ['Science-1', 'Science-2']
+  },
+  {
+    id: '3',
+    email: 'sreymao.lim@gmail.com',
+    password: 'pass123',
+    firstName: 'Sreymao',
+    lastName: 'Lim',
+    role: 'teacher',
+    phone: '012-200003',
+    address: 'Street 2004, Sangkat Teuk Thla, Khan Sen Sok, Phnom Penh',
+    createdAt: new Date(),
+    teacherId: 'TCH003',
+    department: 'English',
+    qualification: 'M.A. English',
+    subjects: ['English-1', 'English-2']
+  },
+  {
+    id: '4',
+    email: 'dara.sok@gmail.com',
+    password: 'pass123',
+    firstName: 'Dara',
+    lastName: 'Sok',
+    role: 'teacher',
+    phone: '012-200004',
+    address: 'Street 310, Sangkat Boeung Keng Kang, Khan Chamkar Mon, Phnom Penh',
+    createdAt: new Date(),
+    teacherId: 'TCH004',
+    department: 'History',
+    qualification: 'M.A. History',
+    subjects: ['History-1', 'History-2']
+  }
+]);
 
   private _classes = signal<Class[]>([
-    { id: '1', name: 'Class 5-A', grade: 5, section: 'A', academicYear: '2025-2026', classTeacherId: '1', roomNumber: 'Room 101', studentIds: ['1', '2', '3'] },
-    { id: '2', name: 'Class 5-B', grade: 5, section: 'B', academicYear: '2025-2026', classTeacherId: '2', roomNumber: 'Room 102', studentIds: ['4', '5'] },
-    { id: '3', name: 'Class 6-A', grade: 6, section: 'A', academicYear: '2025-2026', classTeacherId: '3', roomNumber: 'Room 201', studentIds: [] }
+    { id: '1', name: 'Class 5-A', grade: 5, section: 'A', academicYear: '2025-2026', classTeacherId: '1', roomNumber: 'Room 1A', studentIds: ['1', '2', '3'] },
+    { id: '2', name: 'Class 5-B', grade: 5, section: 'B', academicYear: '2025-2026', classTeacherId: '2', roomNumber: 'Room 2B', studentIds: ['4', '5'] },
+    { id: '3', name: 'Class 6-A', grade: 6, section: 'A', academicYear: '2025-2026', classTeacherId: '3', roomNumber: 'Room 3C', studentIds: [] }
   ]);
 
   private _subjects = signal<Subject[]>([
@@ -106,14 +201,14 @@ export class DataService {
   ]);
 
   private _timetable = signal<TimetableEntry[]>([
-    { id: '1', classId: '1', dayOfWeek: 1, period: 1, subjectId: '1', teacherId: '1', roomNumber: 'Room 101' },
+    { id: '1', classId: '1', dayOfWeek: 1, period: 1, subjectId: '1', teacherId: '1', roomNumber: 'Room 1A' },
     { id: '2', classId: '1', dayOfWeek: 1, period: 2, subjectId: '2', teacherId: '2', roomNumber: 'Lab 1' },
-    { id: '3', classId: '1', dayOfWeek: 1, period: 3, subjectId: '3', teacherId: '3', roomNumber: 'Room 101' },
-    { id: '4', classId: '1', dayOfWeek: 1, period: 4, subjectId: '4', teacherId: '4', roomNumber: 'Room 102' },
-    { id: '5', classId: '1', dayOfWeek: 2, period: 1, subjectId: '3', teacherId: '3', roomNumber: 'Room 101' },
-    { id: '6', classId: '1', dayOfWeek: 2, period: 2, subjectId: '1', teacherId: '1', roomNumber: 'Room 101' },
+    { id: '3', classId: '1', dayOfWeek: 1, period: 3, subjectId: '3', teacherId: '3', roomNumber: 'Room 2C' },
+    { id: '4', classId: '1', dayOfWeek: 1, period: 4, subjectId: '4', teacherId: '4', roomNumber: 'Room 4B' },
+    { id: '5', classId: '1', dayOfWeek: 2, period: 1, subjectId: '3', teacherId: '3', roomNumber: 'Room 5A' },
+    { id: '6', classId: '1', dayOfWeek: 2, period: 2, subjectId: '1', teacherId: '1', roomNumber: 'Room 1A' },
     { id: '7', classId: '1', dayOfWeek: 2, period: 3, subjectId: '2', teacherId: '2', roomNumber: 'Lab 1' },
-    { id: '8', classId: '1', dayOfWeek: 2, period: 4, subjectId: '4', teacherId: '4', roomNumber: 'Room 102' }
+    { id: '8', classId: '1', dayOfWeek: 2, period: 4, subjectId: '4', teacherId: '4', roomNumber: 'Room 4B' }
   ]);
 
   readonly students = computed(() => this._students());
